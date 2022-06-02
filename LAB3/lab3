@@ -1,105 +1,193 @@
-cqlsh:employee> CREATE KEYSPACE employee WITH REPLICATION={ 'class' : 'SimpleStrategy', 'replication_factor' : 1};
-cqlsh:employee> USE employee;
-cqlsh:employee> create table employee_info(emp_id int PRIMARY KEY, emp_name text,
-            ... designation text, date_of_joining timestamp, salary double PRIMARY KEY, dept_name text);
-cqlsh:employee> CREATE TABLE employee_info(emp_id int, emp_name text, designation text, date_of_joining timestamp, salary double, dept_name text, PRIMARY KEY(emp_id, salary));
-cqlsh:employee> BEGIN BATCH INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(100,'John','MANAGER','2021-09-11',30000,'TESTING');
-            ... INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(111,'Tom','ASSOCIATE','2021-06-22',25000,'DEVELOPING');
-            ... INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(121,'Elsa','MANAGER','2021-03-30',35000,'HR');
-            ... INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(115,'Chris','ASSISTANT','2021-12-30',20000,'DEVELOPING');
-            ... INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(105,'Sarah','ASSOCIATE','2021-06-25',25000,'TESTING');
-            ... APPLY BATCH;
-cqlsh:employee> SELECT * FROM employee_info
-            ... ;
+bmsce@bmsce-Precision-T1700:~$ mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("d66acdb3-8482-417d-8b75-d65dae4b53ee") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2022-04-11T18:49:15.627+0530 I STORAGE  [initandlisten] 
+2022-04-11T18:49:15.627+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2022-04-11T18:49:15.627+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2022-04-11T18:49:18.771+0530 I CONTROL  [initandlisten] 
+2022-04-11T18:49:18.771+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2022-04-11T18:49:18.771+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2022-04-11T18:49:18.771+0530 I CONTROL  [initandlisten] 
+> use Student
+switched to db Student
+> db.createCollection("student");
+{ "ok" : 1 }
+> db.Student.insert({_id:1,StudName:"Megha",Grade:"vii",Hobbies:"InternetSurfing"});
+WriteResult({ "nInserted" : 1 })
+> db.Student.update({_id:3,StudName:"Ayan",Grade:"vii"},{$set:{Hobbies:"skating"}},{upsert:true});
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 3 })
+> db.Student.find({StudName:"Ayan"});
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.find({},{StudName:1,Grade:1,_id:0});
+{ "StudName" : "Megha", "Grade" : "vii" }
+{ "Grade" : "vii", "StudName" : "Ayan" }
 
- emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
---------+--------+---------------------------------+------------+-------------+----------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 |         HR |     MANAGER |     Elsa
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
-
-(5 rows)
-cqlsh:employee> UPDATE employee_info SET emp_name = 'Jessica', dept_name = 'DEVELOPING' WHERE emp_id = 121;
-cqlsh:employee> UPDATE employee_info SET emp_name = 'Jessica', dept_name = 'DEVELOPING' WHERE emp_id = 121 AND salary = 35000;
-cqlsh:employee> SELECT * FROM employee_info ;
-
- emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
---------+--------+---------------------------------+------------+-------------+----------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
-
-(5 rows)
-cqlsh:employee> SELECT * FROM employee_info WHERE emp_id in (105, 111, 121, 115, 100) order by salary;
-cqlsh:employee> paging off
-Disabled Query paging.
-cqlsh:employee> SELECT * FROM employee_info WHERE emp_id in (105, 111, 121, 115, 100) order by salary;
-
- emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
---------+--------+---------------------------------+------------+-------------+----------
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica
-
-(5 rows)
-cqlsh:employee> ALTER TABLE employee_info ADD projects text;
-cqlsh:employee> UPDATE employee_info SET projects = 'Chat App' WHERE emp_id = 111;
-cqlsh:employee> UPDATE employee_info SET projects = 'Chat App' WHERE emp_id = 111 and salary = 25000;
-cqlsh:employee> UPDATE employee_info SET projects = 'Discord Bot' WHERE emp_id = 115 and salary = 20000;
-cqlsh:employee> UPDATE employee_info SET projects = 'Campus Portal' WHERE emp_id = 105 and salary = 25000;
-cqlsh:employee> UPDATE employee_info SET projects = 'YouTube Downloader' WHERE emp_id = 100 and salary = 30000;
-cqlsh:employee> UPDATE employee_info SET projects = 'Library Management System ' WHERE emp_id = 121 and salary = 35000;
-cqlsh:employee> SELECT * FROM employee_infor
-            ... ;
-cqlsh:employee> SELECT * FROM employee_info ;
-
- emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name | projects
---------+--------+---------------------------------+------------+-------------+----------+----------------------------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah |              Campus Portal
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom |                   Chat App
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica | Library Management System 
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris |                Discord Bot
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John |         YouTube Downloader
-
-(5 rows)
-cqlsh:employee> NSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... 
-            ... ;
-cqlsh:employee> INSERT INTO
-            ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(110,'SAM','ASSOCIATE','2021-01-11',28000,'TESTING') USING TTL 15;
-cqlsh:employee> SELECT TTL(emp_name) from employee_info WHERE emp_id = 110;
-
- ttl(emp_name)
----------------
-             3
-
-(1 rows)
-cqlsh:employee> SELECT * FROM employee_info;
-
- emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name | projects
---------+--------+---------------------------------+------------+-------------+----------+----------------------------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah |              Campus Portal
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom |                   Chat App
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica | Library Management System 
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris |                Discord Bot
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John |         YouTube Downloader
-
-(5 rows)
+> db.Student.find({Grade:{$eq:'vii'}}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.find({Grade:{$eq:'vii'}});
+{ "_id" : 1, "StudName" : "Megha", "Grade" : "vii", "Hobbies" : "InternetSurfing" }
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.find({Grade:{$eq:'vii'}}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.find({Hobbies:{$in:['Chess','Skating']}}).pretty();
+> db.Student.find({Hobbies:{$in:['Skating']}}).pretty();
+> db.Student.find({Hobbies:{$in:['skating']}}).pretty();
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.find({StudName:/^M/}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+> db.Student.find({StudName:/e/}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+> db.Student.count();
+2
+> db.Student.find().sort({StudName:-1}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+> db.Student.save({StudName:"Vamsi",Greade:"vi"})
+WriteResult({ "nInserted" : 1 })
+> db.Students.update({_id:4},{$set:{Location:"Network"}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.Students.update({_id:4},{$unset:{Location:"Network"}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.Student.find({_id:1},{StudName:1,Grade:1,_id:0});
+{ "StudName" : "Megha", "Grade" : "vii" }
+> db.Student.find({Grade:{$ne:'VII'}}).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{ "_id" : 3, "Grade" : "vii", "StudName" : "Ayan", "Hobbies" : "skating" }
+{
+	"_id" : ObjectId("6253f413e88b8c9e787b194e"),
+	"StudName" : "Vamsi",
+	"Greade" : "vi"
+}
+> db.Student.find({StudName:/s$/}).pretty();
+> db.Students.update({_id:3},{$set:{Location:null}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+> db.Students.count()
+0
+> db.Students.count({Grade:"VII"})
+0
+> db.Student.find({Grade:"VII"}).limit(3).pretty();
+> db.Student.update({_id:3},{$set:{Location:null}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.Student.count({Grade:"VII"})
+0
+> db.Students.count({Grade:"vii"})
+0
+> db.Student.count()
+3
+> db.Student.count({Grade:"vii"})
+2
+> db.Student.find({Grade:"vii"}).limit(3).pretty();
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{
+	"_id" : 3,
+	"Grade" : "vii",
+	"StudName" : "Ayan",
+	"Hobbies" : "skating",
+	"Location" : null
+}
+> db.Student.find().sort({StudName:1}).pretty();
+{
+	"_id" : 3,
+	"Grade" : "vii",
+	"StudName" : "Ayan",
+	"Hobbies" : "skating",
+	"Location" : null
+}
+{
+	"_id" : 1,
+	"StudName" : "Megha",
+	"Grade" : "vii",
+	"Hobbies" : "InternetSurfing"
+}
+{
+	"_id" : ObjectId("6253f413e88b8c9e787b194e"),
+	"StudName" : "Vamsi",
+	"Greade" : "vi"
+}
+> db.Student.find().skip(2).pretty()
+{
+	"_id" : ObjectId("6253f413e88b8c9e787b194e"),
+	"StudName" : "Vamsi",
+	"Greade" : "vi"
+}
+> db.food.insert( { _id:1, fruits:['grapes','mango','apple';] } )
+2022-04-11T15:05:51.894+0530 E QUERY    [thread1] SyntaxError: missing ] after element list @(shell):1:57
+> db.food.insert({_id:1,fruits:['grapes','mango','apple']})
+WriteResult({ "nInserted" : 1 })
+> db.food.insert({_id:2,fruits:['grapes','mango','cherry']})
+WriteResult({ "nInserted" : 1 })
+> db.food.insert({_id:3,fruits:['banana','mango']})
+WriteResult({ "nInserted" : 1 })
+> db.food.find({fruits:['grapes','mango','apple']}).pretty();
+{ "_id" : 1, "fruits" : [ "grapes", "mango", "apple" ] }
+> db.food.find({'fruits.1':'grapes'})
+> db.food.find({"fruits":{$size:2}})
+{ "_id" : 3, "fruits" : [ "banana", "mango" ] }
+> db.food.find({_id:1},{"fruits":{$slice:2}})
+{ "_id" : 1, "fruits" : [ "grapes", "mango" ] }
+> db.food.find({fruits:{$all:["mango","grapes"]}})
+{ "_id" : 1, "fruits" : [ "grapes", "mango", "apple" ] }
+{ "_id" : 2, "fruits" : [ "grapes", "mango", "cherry" ] }
+> db.food.update({_id:3},{$set:{"fruits.1":"apple"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.food.update({_id:2},{$push:{price:{grapes:80,mango:200,cherry:100}}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> 
+> 
+> 
+> 
+> 
+> db.createCollection("Customers");
+{
+	"ok" : 0,
+	"errmsg" : "a collection 'bhuvana.Customers' already exists",
+	"code" : 48,
+	"codeName" : "NamespaceExists"
+}
+db.Customers.insert({_custID:1,AcctBal:'100000',AcctType:"saving"});
+WriteResult({ "nInserted" : 1 })
+> db.Customers.aggregate({$group:{_id:"$custID",TotAccBal:{$sum:"$AccBal"}}});
+{ "_id" : null, "TotAccBal" : 0 }
+db.Customers.aggregate({$match:{AcctType:"saving"}},{$group:{_id:"$custID",TotAccBal:{$sum:"$AccBal"}}});
+{ "_id" : null, "TotAccBal" : 0 }
+db.Customers.aggregate({$match:{AcctType:"saving"}},{$group:{_id:"$custID",TotAccBal:{$sum:"$AccBal"}}},{$match:{TotAccBal:{$gt:1200}}});
