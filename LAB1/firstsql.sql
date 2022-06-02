@@ -33,13 +33,13 @@ CREATE table dependents(
 INSERT into department values('CSE'), ('ISE'), ('ML');
 select * from department;
 
-INSERT into employee values(10, 'ABC', 35, 'CSE', 40000), (11, 'BCD', 30, 'ISE', 45000), (12, 'CDE', 25, 'CSE', 60000), (13, 'DEF', 27, 'ML', 55000), (14, 'EFG', 31, 'ML', 30000);
+INSERT into employee values(10, 'Anitej', 35, 'CSE', 40000), (11, 'Batul', 30, 'ISE', 45000), (12, 'Charan', 25, 'CSE', 60000), (13, 'Derek', 27, 'ML', 55000), (14, 'Ermina', 31, 'ML', 30000);
 select * from employee;
 
-INSERT into project values(1, 10, 'A1B', 'CSE'), (2, 14, 'B2C', 'ISE'), (3, 13, 'C3D', 'ML'), (4, 12, 'D4E', 'CSE'), (5, 12, 'E5F', 'ISE');
+INSERT into project values(1, 10, 'Arjun', 'CSE'), (2, 14, 'Bomesh', 'ISE'), (3, 13, 'Calli', 'ML'), (4, 12, 'Dhanush', 'CSE'), (5, 12, 'Sooraj', 'ISE');
 select * from project;
 
-INSERT into dependents values(10, 'XYZ', 'Son'), (12, 'ZAB', 'Wife'), (14, 'PQR', 'Mother');
+INSERT into dependents values(10, 'Rohan', 'Son'), (12, 'Priya', 'Wife'), (14, 'Pooja', 'Mother');
 select * from dependents;
 
 select * from employee where dept = 'CSE';
