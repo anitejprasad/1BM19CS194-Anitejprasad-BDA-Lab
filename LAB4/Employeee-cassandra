@@ -5,43 +5,43 @@ cqlsh:employee> create table employee_info(emp_id int PRIMARY KEY, emp_name text
 cqlsh:employee> CREATE TABLE employee_info(emp_id int, emp_name text, designation text, date_of_joining timestamp, salary double, dept_name text, PRIMARY KEY(emp_id, salary));
 cqlsh:employee> BEGIN BATCH INSERT INTO
             ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(100,'John','MANAGER','2021-09-11',30000,'TESTING');
+            ... VALUES(100,'Jogesh','MANAGER','2021-09-11',30000,'TESTING');
             ... INSERT INTO
             ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(111,'Tom','ASSOCIATE','2021-06-22',25000,'DEVELOPING');
+            ... VALUES(111,'Tamara','ASSOCIATE','2021-06-22',25000,'DEVELOPING');
             ... INSERT INTO
             ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(121,'Elsa','MANAGER','2021-03-30',35000,'HR');
+            ... VALUES(121,'Elenor','MANAGER','2021-03-30',35000,'HR');
             ... INSERT INTO
             ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(115,'Chris','ASSISTANT','2021-12-30',20000,'DEVELOPING');
+            ... VALUES(115,'Charu','ASSISTANT','2021-12-30',20000,'DEVELOPING');
             ... INSERT INTO
             ... employee_info(emp_id,emp_name,designation,date_of_joining,salary,dept_name)
-            ... VALUES(105,'Sarah','ASSOCIATE','2021-06-25',25000,'TESTING');
+            ... VALUES(105,'Santosh','ASSOCIATE','2021-06-25',25000,'TESTING');
             ... APPLY BATCH;
 cqlsh:employee> SELECT * FROM employee_info
             ... ;
 
  emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
 --------+--------+---------------------------------+------------+-------------+----------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 |         HR |     MANAGER |     Elsa
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
+    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Santosh
+    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |    Tamara
+    121 |  35000 | 2021-03-29 18:30:00.000000+0000 |         HR |     MANAGER |    Elenor
+    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Charu
+    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |    Jogesh
 
 (5 rows)
-cqlsh:employee> UPDATE employee_info SET emp_name = 'Jessica', dept_name = 'DEVELOPING' WHERE emp_id = 121;
-cqlsh:employee> UPDATE employee_info SET emp_name = 'Jessica', dept_name = 'DEVELOPING' WHERE emp_id = 121 AND salary = 35000;
+cqlsh:employee> UPDATE employee_info SET emp_name = 'Jayesh', dept_name = 'DEVELOPING' WHERE emp_id = 121;
+cqlsh:employee> UPDATE employee_info SET emp_name = 'Jayesh', dept_name = 'DEVELOPING' WHERE emp_id = 121 AND salary = 35000;
 cqlsh:employee> SELECT * FROM employee_info ;
 
  emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
 --------+--------+---------------------------------+------------+-------------+----------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
+    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Santosh
+    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |    Tamara
+    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |    Jayesh
+    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Charu
+    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |    Jogesh
 
 (5 rows)
 cqlsh:employee> SELECT * FROM employee_info WHERE emp_id in (105, 111, 121, 115, 100) order by salary;
@@ -51,11 +51,11 @@ cqlsh:employee> SELECT * FROM employee_info WHERE emp_id in (105, 111, 121, 115,
 
  emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name
 --------+--------+---------------------------------+------------+-------------+----------
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica
+    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Charu
+    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Santosh
+    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |    Tamara
+    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |    Jogesh
+    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |    Jayesh
 
 (5 rows)
 cqlsh:employee> ALTER TABLE employee_info ADD projects text;
@@ -71,11 +71,11 @@ cqlsh:employee> SELECT * FROM employee_info ;
 
  emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name | projects
 --------+--------+---------------------------------+------------+-------------+----------+----------------------------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah |              Campus Portal
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom |                   Chat App
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica | Library Management System 
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris |                Discord Bot
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John |         YouTube Downloader
+    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |  Santosh |              Campus Portal
+    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |  Tamara  |                   Chat App
+    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jayesh  |  Library Management System 
+    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |  Charu   |                Discord Bot
+    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |  Jogesh  |         YouTube Downloader
 
 (5 rows)
 cqlsh:employee> NSERT INTO
@@ -96,10 +96,10 @@ cqlsh:employee> SELECT * FROM employee_info;
 
  emp_id | salary | date_of_joining                 | dept_name  | designation | emp_name | projects
 --------+--------+---------------------------------+------------+-------------+----------+----------------------------
-    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |    Sarah |              Campus Portal
-    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |      Tom |                   Chat App
-    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jessica | Library Management System 
-    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |    Chris |                Discord Bot
-    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |     John |         YouTube Downloader
+    105 |  25000 | 2021-06-24 18:30:00.000000+0000 |    TESTING |   ASSOCIATE |  Santosh |              Campus Portal
+    111 |  25000 | 2021-06-21 18:30:00.000000+0000 | DEVELOPING |   ASSOCIATE |  Tamara  |                   Chat App
+    121 |  35000 | 2021-03-29 18:30:00.000000+0000 | DEVELOPING |     MANAGER |  Jayesh  | Library Management System 
+    115 |  20000 | 2021-12-29 18:30:00.000000+0000 | DEVELOPING |   ASSISTANT |  Charu   |                Discord Bot
+    100 |  30000 | 2021-09-10 18:30:00.000000+0000 |    TESTING |     MANAGER |  Jogesh  |         YouTube Downloader
 
 (5 rows)
