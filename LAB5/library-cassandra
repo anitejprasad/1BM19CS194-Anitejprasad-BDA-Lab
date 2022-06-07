@@ -17,10 +17,10 @@ cqlsh:library> SELECT * FROM library_info ;
  
  stud_id | stud_name | book_name                 | book_id | date_of_issue                   | counter_value 
 ---------+-----------+---------------------------+---------+---------------------------------+-------------- 
-     114 |  Ramesh |       EME                 |   52e46 | 2021-04-02 18:30:00.000000+0000 |             1 
-     111 |  Manju  |       Human Behaviour     |   52e43 | 2021-09-11 18:30:00.000000+0000 |             1 
-     113 |  Maitri |           Dan Brown       |   52e45 | 2021-01-31 18:30:00.000000+0000 |             1 
-     112 |  Kishore| Engineering Mathematics-1 |   52e44 | 2021-04-09 18:30:00.000000+0000 |             1 
+     114 |  Ramesh |   EME                       |   52e46 | 2021-04-02 18:30:00.000000+0000 |             1 
+     111 |  Manju  |   Human Behaviour           |   52e43 | 2021-09-11 18:30:00.000000+0000 |             1 
+     113 |  Maitri |   Dan Brown                 |   52e45 | 2021-01-31 18:30:00.000000+0000 |             1 
+     112 |  Kishore|   Engineering Mathematics-1 |   52e44 | 2021-04-09 18:30:00.000000+0000 |             1 
  
 (4 rows) 
  
@@ -28,10 +28,10 @@ cqlsh:library> UPDATE library_info set counter_value += 1 where stud_id = 112 an
  
  stud_id | stud_name | book_name                 | book_id | date_of_issue                   | counter_value 
 ---------+-----------+---------------------------+---------+---------------------------------+-------------- 
-     114 |  Ramesh |       EME                 |   52e46 | 2021-04-02 18:30:00.000000+0000 |             1 
-	    111 |  Manoj  |       Human Behaviour     |   52e43 | 2021-09-11 18:30:00.000000+0000 |             1 
-     113 |  Maitri |           Dan Brown       |   52e45 | 2021-01-31 18:30:00.000000+0000 |             1 
-	    112 |  Kishore| Engineering Mathematics-1 |   52e44 | 2021-04-09 18:30:00.000000+0000 |             2 
+     114 |  Ramesh |   EME                       |   52e46 | 2021-04-02 18:30:00.000000+0000 |             1 
+     111 |  Manoj  |   Human Behaviour           |   52e43 | 2021-09-11 18:30:00.000000+0000 |             1 
+     113 |  Maitri |   Dan Brown                 |   52e45 | 2021-01-31 18:30:00.000000+0000 |             1 
+     112 |  Kishore|   Engineering Mathematics-1 |   52e44 | 2021-04-09 18:30:00.000000+0000 |             2 
  
 cqlsh:library> copy library_info(stud_id,stud_name, book_name, book_id, date_of_issue,counter_value) to 'library_info.csv' ; 
 Using 11 child processes 
