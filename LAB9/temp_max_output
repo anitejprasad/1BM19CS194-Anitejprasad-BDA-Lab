@@ -1,0 +1,100 @@
+c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -mkdir /tempMax c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -put E:\Desktop\temp1.txt \tempMax c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -put E:\Desktop\temp2.txt \tempMax
+c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -cat \tempMax\temp1.txt
+0067011990999991950051507004+68750+023550FM-12+038299999V0203301N0067 1220001CN9999999N9+00001+99999999999
+0043011990999991950051512004+68750+023550FM-12+038299999V0203201N0067 1220001CN9999999N9+00221+99999999999
+0043011990999991950051518004+68750+023550FM-12+038299999V0203201N0026
+1220001CN9999999N9-00111+99999999999
+0043012650999991949032412004+62300+010750FM-12+048599999V0202701N0046 1220001CN0500001N9+01111+99999999999
+0043012650999991949032418004+62300+010750FM-12+048599999V0202701N0046
+1220001CN0500001N9+00781+99999999999
+c:\hadoop_new\share\hadoop\mapreduce>hadoop jar E:\Desktop\temperatureMax.jar temperatureMax.TempDriver \tempMax \tempMaxOutput
+2022-06-22 15:19:31,366 INFO client.RMProxy: Connecting to ResourceManager at
+/0.0.0.0:8032
+2022-06-22 15:19:33,482 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+2022-06-22 15:19:33,591 INFO mapreduce.JobResourceUploader: Disabling Erasure
+Coding for path: /tmp/hadoop-yarn/staging/Admin/.staging/job_1620636818881_0003
+2022-06-22 15:19:34,660 INFO input.FileInputFormat: Total input files to process : 2 2022-06-22 15:19:35,250 INFO mapreduce.JobSubmitter: number of splits:2 2022-06-22 15:19:35,729 INFO Configuration.deprecation: yarn.resourcemanager.system-metrics-publisher.enabled is deprecated. Instead, use yarn.system-metrics-publisher.enabled
+2022-06-22 15:19:36,334 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1620636818881_0003
+2022-06-22 15:19:36,337 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2022-06-22 15:19:36,859 INFO conf.Configuration: resource-types.xml not found 2022-06-22 15:19:36,863 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2022-06-22 15:19:37,153 INFO impl.YarnClientImpl: Submitted application application_1620636818881_0003
+2022-06-22 15:19:37,287 INFO mapreduce.Job: The url to track the job: http://DESKTOP-CK14PFH:8088/proxy/application_1620636818881_0003/ 2022-06-22 15:19:37,290 INFO mapreduce.Job: Running job: job_1620636818881_0003
+2022-06-22 15:20:03,295 INFO mapreduce.Job: Job job_1620636818881_0003 running in uber mode : false
+2022-06-22 15:20:03,327 INFO mapreduce.Job:  map 0% reduce 0%
+2022-06-22 15:20:26,140 INFO mapreduce.Job:  map 100% reduce 0%
+2022-06-22 15:20:55,633 INFO mapreduce.Job:  map 100% reduce 100% 2021-05-2022-06-22,752 INFO mapreduce.Job: Job job_1620636818881_0003 completed successfully
+2022-06-22 15:21:03,029 INFO mapreduce.Job: Counters: 53
+File System Counters
+FILE: Number of bytes read=59127
+FILE: Number of bytes written=758459
+FILE: Number of read operations=0
+FILE: Number of large read operations=0
+FILE: Number of write operations=0
+HDFS: Number of bytes read=895496 HDFS: Number of bytes written=81
+HDFS: Number of read operations=11
+HDFS: Number of large read operations=0
+HDFS: Number of write operations=2
+Job Counters
+Launched map tasks=2
+Launched reduce tasks=1
+Data-local map tasks=2
+Total time spent by all maps in occupied slots (ms)=40099
+Total time spent by all reduces in occupied slots (ms)=26572
+Total time spent by all map tasks (ms)=40099
+Total time spent by all reduce tasks (ms)=26572
+Total vcore-milliseconds taken by all map tasks=40099
+Total vcore-milliseconds taken by all reduce tasks=26572
+Total megabyte-milliseconds taken by all map tasks=41061376
+Total megabyte-milliseconds taken by all reduce tasks=27209728
+Map-Reduce Framework
+Map input records=6570
+Map output records=6569
+Map output bytes=45983
+Map output materialized bytes=59133
+Input split bytes=208
+Combine input records=0
+Combine output records=0
+Reduce input groups=12
+Reduce shuffle bytes=59133
+Reduce input records=6569
+Reduce output records=12
+Spilled Records=13138
+Shuffled Maps =2
+Failed Shuffles=0
+Merged Map outputs=2
+GC time elapsed (ms)=368
+CPU time spent (ms)=14277
+Physical memory (bytes) snapshot=654815232
+Virtual memory (bytes) snapshot=1096699904
+Total committed heap usage (bytes)=554696704
+Peak Map Physical memory (bytes)=245723136
+Peak Map Virtual memory (bytes)=432418816
+Peak Reduce Physical memory (bytes)=186056704
+Peak Reduce Virtual memory (bytes)=232816640
+Shuffle Errors
+BAD_ID=0
+CONNECTION=0
+IO_ERROR=0
+WRONG_LENGTH=0
+WRONG_MAP=0
+WRONG_REDUCE=0
+File Input Format Counters
+Bytes Read=895288
+File Output Format Counters
+Bytes Written=81
+c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -ls \tempMaxOutput
+Found 2 items
+-rw-r--r--   1 Admin supergroup          0 2022-06-22 15:20 /tempMaxOutput/_SUCCESS
+-rw-r--r--   1 Admin supergroup         81 2022-06-22 15:20 /tempMaxOutput/part-r-00000 c:\hadoop_new\share\hadoop\mapreduce>hdfs dfs -cat \tempMaxOutput\part-r-00000
+01	44
+02	17
+03	111
+04	194
+05	256
+06	278
+07	317
+08	283
+09	211
+10	156
+11	89
+12	117
